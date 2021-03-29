@@ -1,0 +1,8 @@
+{
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": false,
+  "files.autoSave": "false",
+  "editor.formatOnSave": true
+}
