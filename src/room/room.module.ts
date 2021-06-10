@@ -14,11 +14,29 @@ import { Room } from './interfaces/room.interface';
 })
 export class RoomModule {
   private room: CreateRoomDto = {
-    title: 'Room',
-    shortDescription: 'shortDescription',
-    description: 'description',
-    imgUrl:
-      'https://media-cdn.tripadvisor.com/media/photo-s/13/db/45/9e/dolmen-hotel-malta.jpg',
+    hotelName: `Hotel & Room name`,
+    shortDescription: 'short description lorem',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad asperiores, beatae consequuntur cumque debitis, dicta et eveniet illo in incidunt labore laborum libero molestias necessitatibus sequi, voluptatem. Accusamus eius laborum nisi placeat veritatis. Blanditiis deleniti ea, facilis fuga fugiat incidunt iusto magnam minus qui reiciendis, sed sint soluta, tenetur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam blanditiis consectetur culpa deleniti in, perferendis recusandae repellendus rerum soluta voluptates? Animi commodi culpa cupiditate distinctio enim esse et facere fuga fugit iure molestiae, neque nisi nostrum obcaecati omnis placeat quisquam quo similique sint tenetur vitae voluptatem voluptatibus? Ab, accusamus aperiam atque corporis culpa cum dignissimos earum enim eos et exercitationem ipsam, ipsum iure magnam magni maxime molestiae nobis nulla numquam officiis quam quasi quisquam repellendus sed sunt totam unde vel veritatis vero voluptatibus. Aspernatur consequatur consequuntur excepturi impedit ipsam magnam natus saepe voluptatem! Aliquam fuga illo minus neque sed veritatis?',
+    address: `2/6 Stare Miasto, 00-000, Kraków`,
+    pricePerDay: 30,
+    currency: 'USD',
+    img: 'https://via.placeholder.com/1024x400',
+    rate: 5,
+    facilities: [
+      {
+        name: 'WiFi',
+        iconClass: 'fa-wifi',
+      },
+      {
+        name: 'Animals',
+        iconClass: 'fa-paw',
+      },
+      {
+        name: 'Bath',
+        iconClass: 'fa-bath',
+      },
+    ],
   };
 
   constructor(private readonly roomService: RoomService) {
@@ -30,7 +48,9 @@ export class RoomModule {
     const isExistingRoom: boolean = allRooms.length > 0;
 
     if (!isExistingRoom) {
-      await this.roomService.create(this.room);
+      new Array(10).fill(null).forEach(async (item, key) => {
+        await this.roomService.create(this.room);
+      });
     }
   }
 }

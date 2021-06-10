@@ -1,8 +1,13 @@
 import { Document } from 'mongoose';
 
 export interface Room extends Document {
-  readonly title: string;
-  readonly shortDescription: number;
+  readonly hotelName: string;
+  readonly shortDescription: string;
   readonly description: string;
-  readonly imgUrl: string;
+  readonly address: string;
+  readonly pricePerDay: number;
+  readonly img: string;
+  readonly currency: string;
+  readonly rate: number;
+  readonly facilities: object;
 }

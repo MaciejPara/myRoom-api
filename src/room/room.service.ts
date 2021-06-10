@@ -20,12 +20,10 @@ export class RoomService {
   }
 
   async findOne(id: string): Promise<Room> {
-    return this.roomModel
-      .findOne({
-        where: {
-          id,
-        },
-      })
-      .exec();
+    try {
+      return await this.roomModel.findById(id).exec();
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

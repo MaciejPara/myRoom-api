@@ -1,9 +1,9 @@
 // @ts-ignore
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateRoomDto {
   @IsString()
-  readonly title: string;
+  readonly hotelName: string;
 
   @IsString()
   readonly shortDescription: string;
@@ -12,5 +12,20 @@ export class CreateRoomDto {
   readonly description: string;
 
   @IsString()
-  readonly imgUrl: string;
+  readonly address: string;
+
+  @IsNumber()
+  readonly pricePerDay: number;
+
+  @IsString()
+  readonly img: string;
+
+  @IsString()
+  readonly currency: string;
+
+  @IsNumber()
+  readonly rate: number;
+
+  @IsString()
+  readonly facilities: object;
 }
