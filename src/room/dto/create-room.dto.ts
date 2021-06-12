@@ -24,7 +24,7 @@ export class CreateRoomDto {
   readonly currency: string;
 
   @IsNumber()
-  readonly rate: number;
+  readonly rates: Array<Rate>;
 
   @IsString()
   readonly facilities: object;

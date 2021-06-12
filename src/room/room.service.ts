@@ -26,4 +26,12 @@ export class RoomService {
       console.error(e);
     }
   }
+
+  async update(room: Room): Promise<any> {
+    try {
+      return this.roomModel.updateOne({ _id: room._id }, room).exec();
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }

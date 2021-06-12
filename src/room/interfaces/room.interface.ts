@@ -8,6 +8,7 @@ export interface Room extends Document {
   readonly pricePerDay: number;
   readonly img: string;
   readonly currency: string;
-  readonly rate: number;
+  rates: Array<Rate>;
+  rate?: number;
   readonly facilities: object;
 }

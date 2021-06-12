@@ -8,6 +8,12 @@ export const RoomSchema = new mongoose.Schema({
   pricePerDay: Number,
   img: String,
   currency: String,
-  rate: Number,
+  rates: [
+    {
+      rate: Number,
+      orderId: String,
+      createdAt: String,
+    },
+  ],
   facilities: Object,
 });

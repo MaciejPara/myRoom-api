@@ -22,7 +22,7 @@ export class RoomModule {
     pricePerDay: 30,
     currency: 'USD',
     img: 'https://via.placeholder.com/1024x400',
-    rate: 5,
+    rates: [],
     facilities: [
       {
         name: 'WiFi',

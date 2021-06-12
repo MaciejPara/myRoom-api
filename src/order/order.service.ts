@@ -3,16 +3,56 @@ import { Model } from 'mongoose';
 import { Order } from './interfaces/order.interface';
 import { CreateOrderDto } from './dto/create-order.dto';
 
+const SendGrid = require('@sendgrid/mail');
+
 @Injectable()
 export class OrderService {
+  private sg = SendGrid;
+
   constructor(
     @Inject('ORDER_MODEL')
     private orderModel: Model<Order>,
-  ) {}
+  ) {
+    const { SENDGRID_API_KEY } = process.env;
+
+    if (SENDGRID_API_KEY) this.sg.setApiKey(SENDGRID_API_KEY);
+  }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    const createdCat = new this.orderModel(createOrderDto);
-    return createdCat.save();
+    const createdOrder = new this.orderModel(createOrderDto);
+    const result = await createdOrder.save();
+    const path = `http://localhost:8080/rate/${result.offerId}`;
+    let rates = '';
+
+    new Array(5).fill(null).forEach((item, key) => {
+      const rate = key + 1;
+      rates += `<a style="padding: 20px;font-size: 20px;" href="${path}/${result._id}/${rate}">${rate}</a>`;
+    });
+
+    try {
+      await this.sg.send({
+        to: 'cienias98@gmail.com',
+        from: 'm.admin@my.room.com',
+        subject: `MyRoom order - ${result._id}`,
+        text: 'Order',
+        html: `
+            <div>
+                <h1>You just ordered a room</h1>
+                <p>start date: ${result.date.start}</p>
+                <p>end date: ${result.date.end}</p>
+                <p>price: ${result.price}${result.currency}</p>
+                
+                <h2>Please, rate an offer in 1-5 scale</h2>
+                <div>
+                    ${rates}
+                </div>
+            </div>`,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    return result;
   }
 
   async findAll(): Promise<Order[]> {
@@ -20,12 +60,6 @@ export class OrderService {
   }
 
   async findOne(id: string): Promise<Order> {
-    return this.orderModel
-      .findOne({
-        where: {
-          id,
-        },
-      })
-      .exec();
+    return this.orderModel.findById(id).exec();
   }
 }
