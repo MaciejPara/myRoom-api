@@ -1,10 +1,18 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RoomService } from './room.service';
 
+/**
+ * RoomController handles api methods for offers
+ */
 @Controller('room')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
+  /**
+   * Gets offer and calculates rate
+   * @param room
+   * @returns {number} rateCount
+   */
   getRate(room): number {
     return (
       room.rates?.map(({ rate }) => rate).reduce((a, b) => a + b, 0) /
@@ -12,6 +20,9 @@ export class RoomController {
     );
   }
 
+  /**
+   * Finds all offers
+   */
   @Get()
   async findAll() {
     const result = await this.roomService.findAll();
@@ -27,6 +38,11 @@ export class RoomController {
     });
   }
 
+  /**
+   * Finds single offer by id
+   * @param {string} id
+   * @returns {object} room - single offer
+   */
   @Get(':id')
   async findOne(@Param('id') id: string) {
     let room = { ...(await this.roomService.findOne(id)) } as any;
@@ -37,6 +53,12 @@ export class RoomController {
     return room;
   }
 
+  /**
+   * Adds rate to offer
+   * @param {string} id - identifier of offer
+   * @param {object} object - data with rate and orderId
+   * @returns {object} updateObject
+   */
   @Post(':id/rate')
   async addRate(@Param('id') id, @Body() { rate, orderId }): Promise<any> {
     try {

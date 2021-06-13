@@ -5,10 +5,17 @@ import { CreateOrderDto } from './dto/create-order.dto';
 
 const SendGrid = require('@sendgrid/mail');
 
+/**
+ * OrderService handles operations for order service
+ */
 @Injectable()
 export class OrderService {
   private sg = SendGrid;
 
+  /**
+   * @constructor
+   * @param {object} orderModel
+   */
   constructor(
     @Inject('ORDER_MODEL')
     private orderModel: Model<Order>,
@@ -18,6 +25,11 @@ export class OrderService {
     if (SENDGRID_API_KEY) this.sg.setApiKey(SENDGRID_API_KEY);
   }
 
+  /**
+   * Creates single order
+   * @param {object} createOrderDto
+   * @returns {object} result - single order
+   */
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
     const createdOrder = new this.orderModel(createOrderDto);
     const result = await createdOrder.save();
@@ -55,10 +67,19 @@ export class OrderService {
     return result;
   }
 
+  /**
+   * Finds all orders
+   * @returns {Promise<Order[]>} orders
+   */
   async findAll(): Promise<Order[]> {
     return this.orderModel.find().exec();
   }
 
+  /**
+   * Finds single order
+   * @param {string} id
+   * @returns {Promise<Order>} order
+   */
   async findOne(id: string): Promise<Order> {
     return this.orderModel.findById(id).exec();
   }

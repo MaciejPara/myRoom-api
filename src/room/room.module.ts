@@ -6,6 +6,9 @@ import { roomProviders } from './room.providers';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room } from './interfaces/room.interface';
 
+/**
+ * RoomModule handles operations for offers module
+ */
 @Module({
   imports: [DatabaseModule],
   providers: [RoomService, ...roomProviders],
@@ -39,10 +42,17 @@ export class RoomModule {
     ],
   };
 
+  /**
+   * @constructor
+   * @param {object} roomService
+   */
   constructor(private readonly roomService: RoomService) {
     this.initTestingRoom();
   }
 
+  /**
+   * Initialize default data into database
+   */
   async initTestingRoom() {
     const allRooms: Room[] = await this.roomService.findAll();
     const isExistingRoom: boolean = allRooms.length > 0;
